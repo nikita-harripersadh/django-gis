@@ -2,8 +2,7 @@
 
 ## Overview
 This is a Django-based web application for managing farm data. It allows users to perform CRUD operations on farming models, such as Crops and Animals, and integrates GIS functionality using GDAL and SpatiaLite.
-T
-he project was completed in three assignments:
+The project was completed in three assignments:
 
 Assignment 1: Django models, migrations, and admin customisation
 
