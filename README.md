@@ -1,4 +1,4 @@
-# Django GIS Farming Project
+# Django Project
 
 ## Overview
 This is a Django-based web application for managing farm data. It allows users to perform CRUD operations on farming models, such as Crops and Animals, and integrates GIS functionality using GDAL and SpatiaLite.
