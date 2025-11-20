@@ -114,3 +114,62 @@ django-lesson-2-orm
 
 django-lesson-3-cbv
 ```
+## 📘 Setting Up GDAL on Windows (Using VS Code + Conda)
+
+GDAL does not install cleanly on Windows with the latest Python versions (e.g., Python 3.12+).
+To avoid installation errors, this project uses a dedicated Conda environment with a compatible Python version.
+
+Follow the steps below to set up GDAL and run this Django GIS project successfully.
+
+### 1. Install required tools:
+```bash
+Download Miniconda (Restart after install)
+```
+### 2. Create a Conda Environment With a Supported Python Version
+GDAL works best with Python 3.10 or 3.11 on Windows.
+
+Open Anaconda Prompt or VS Code terminal
+```bash
+conda create -n gdal-env python=3.10
+```
+### 3. Activate the Environment in VS Code
+```bash
+conda activate gdal-env
+```
+You should see:
+```bash
+(gdal-env) C:\Users\yourname>
+```
+### 4. Install GDAL Using Conda-Forge (Most Important Step)
+```bash
+conda install -c conda-forge gdal
+```
+### 5. Install Django and Project Dependencies
+
+Inside the gdal-env environment:
+```bash
+pip install django
+```
+### 6. Test GDAL Installation
+Inside VS Code terminal:
+```bash
+python -c "import osgeo; print(osgeo.__version__)"
+```
+You should see a version number like:
+```bash
+3.6.2
+```
+### 7. Run the Django Project (inside VS Code)
+
+Navigate to your project folder:
+```bash
+cd path/to/your/project
+```
+Run migrations:
+```bash
+python manage.py migrate
+```
+Start the Django development server:
+```bash
+python manage.py runserver
+```
