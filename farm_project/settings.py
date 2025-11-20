@@ -1,7 +1,12 @@
 from pathlib import Path
+import os
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Set GDAL_LIBRARY_PATH
+# For conda environments, you can get the CONDA_PREFIX from environment variables
+GDAL_LIBRARY_PATH = os.path.join(os.environ['CONDA_PREFIX'], 'Library', 'bin', 'gdal304.dll')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-your-secret-key'
@@ -19,7 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'farm',  
+    'farm',
+    'wildlife',
 ]
 
 MIDDLEWARE = [
