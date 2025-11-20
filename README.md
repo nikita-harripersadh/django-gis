@@ -1,22 +1,25 @@
-# Django Project
+# Django-gis Project
 
 ## Overview
 This is a Django-based web application for managing farm data. It allows users to perform CRUD operations on farming models, such as Crops and Animals, and integrates GIS functionality using GDAL and SpatiaLite.
 The project was completed in three assignments:
 
-Assignment 1: Django models, migrations, and admin customisation
+- **Assignment 1:** Django models, migrations, and admin customisation
 
-Assignment 2: Wildlife app + Django ORM queries
+- **Assignment 2:** Wildlife app + Django ORM queries
 
-Assignment 3: Views, templates, and CRUD functionality
+- **Assignment 3:** Views, templates, and CRUD functionality
+
+- **Assignment 4:** Function-Based Views (FBVs), BaseModel for shared fields, pagination, success messages, and improved UI
 
 ## Features
-- **Create**: Add new records for Crops and Animals.
-- **Read**: View a list of records and detailed views for individual entries.
-- **Update**: Edit existing records.
-- **Delete**: Remove records.
-- GIS support for spatial data.
-- Django views and templates with clean user interface.
+- CRUD operations for Farm Locations, Crops, and Irrigation Zones
+- BaseModel with last_update (auto-update timestamp) and last_update_by (tracks user who last modified a record)
+- Pagination on list views (10 items per page)
+-Success messages on create/update/delete actions
+- User-friendly navigation and intuitive interface
+- Django Admin integration with read-only tracking fields
+- GIS support using GDAL
 
 ## Setup Instructions
 
@@ -101,9 +104,54 @@ list_filter = (...)
 search_fields = (...)
 
 raw_id_fields = (...)
-
-This makes the admin interface user-friendly and searchable.
 ```
+### CRUD Views (Assignment 4)
+
+```bash
+List View: Paginated lists of Farm Locations, Crops, Irrigation Zones
+
+Detail View: View details of a single record
+
+Create View: Add new records with last_update_by automatically set
+
+Update View: Edit records with last_update and last_update_by auto-updating
+
+Delete View: Remove records with success messages
+```
+
+### Example URL patterns (FBVs):
+```bash
+path("farms/", farm_list, name="farm_list"),
+path("farms/add/", farm_create, name="farm_create"),
+path("farms/<int:pk>/", farm_detail, name="farm_detail"),
+path("farms/<int:pk>/edit/", farm_update, name="farm_update"),
+path("farms/<int:pk>/delete/", farm_delete, name="farm_delete"),
+```
+### Templates
+```bash
+farm/templates/farm/
+    farmlocation_list.html
+    farmlocation_detail.html
+    farmlocation_form.html
+    farmlocation_confirm_delete.html
+    crop_list.html
+    crop_detail.html
+    crop_form.html
+    crop_confirm_delete.html
+    zone_list.html
+    zone_detail.html
+    zone_form.html
+    zone_confirm_delete.html
+```
+### Django Admin
+```bash
+Custom admin classes:
+list_display
+list_filter
+search_fields
+readonly_fields for last_update and last_update_by
+```
+
 ### Branching Structure
 ```bash
 The project follows the lesson-based branching:
@@ -113,6 +161,8 @@ django-lesson-1-admin
 django-lesson-2-orm
 
 django-lesson-3-cbv
+
+django-lesson4-fbv
 ```
 ## 📘 Setting Up GDAL on Windows (Using VS Code + Conda)
 
