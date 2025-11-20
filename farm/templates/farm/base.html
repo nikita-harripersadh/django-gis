@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Farm Management</title>
+</head>
+<body>
+    <h1>Farm Management App</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div style="color: green;">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

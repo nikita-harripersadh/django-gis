@@ -1,0 +1,24 @@
+<h1>Crops</h1>
+<a href="{% url 'farm:crop_create' %}">Add New Crop</a>
+
+<ul>
+    {% for crop in page_obj %}
+        <li>
+            <a href="{% url 'farm:crop_detail' crop.pk %}">{{ crop.name }} ({{ crop.crop_type }})</a>
+        </li>
+    {% empty %}
+        <li>No crops available.</li>
+    {% endfor %}
+</ul>
+
+<div>
+    {% if is_paginated %}
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    {% endif %}
+</div>

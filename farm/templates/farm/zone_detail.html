@@ -1,0 +1,7 @@
+<h1>{{ object.name }}</h1>
+<p>Farm: {{ object.farm_location.name }}</p>
+<p>Polygon Data: {{ object.polygon_data }}</p>
+
+<a href="{% url 'farm:zone_update' object.pk %}">Edit</a> |
+<a href="{% url 'farm:zone_delete' object.pk %}">Delete</a> |
+<a href="{% url 'farm:zone_list' %}">Back to List</a>

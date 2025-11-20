@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Irrigation Zones</title>
+</head>
+<body>
+
+<h1>Irrigation Zones</h1>
+<a href="{% url 'farm:zone_create' %}">Add New Zone</a>
+
+<ul>
+    {% for zone in page_obj %}
+        <li>
+            <a href="{% url 'farm:zone_detail' zone.pk %}">{{ zone.name }}</a>
+        </li>
+    {% empty %}
+        <li>No irrigation zones available.</li>
+    {% endfor %}
+</ul>
+
+<!-- Pagination controls -->
+<div>
+    {% if is_paginated %}
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    {% endif %}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ object.name }}</title>
+</head>
+<body>
+<h1>{{ object.name }}</h1>
+<p>Latitude: {{ object.latitude }}</p>
+<p>Longitude: {{ object.longitude }}</p>
+<p>Last updated: {{ object.last_update }}</p>
+<p>Last updated by: {{ object.last_update_by }}</p>
+
+<a href="{% url 'farm:farm_update' object.pk %}">Edit</a>
+<a href="{% url 'farm:farm_delete' object.pk %}">Delete</a>
+<a href="{% url 'farm:farm_list' %}">Back to List</a>
+</body>
+</html>

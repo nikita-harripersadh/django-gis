@@ -1,18 +1,21 @@
 from django.contrib import admin
 from .models import FarmLocation, Crop, IrrigationZone
 
+class BaseAdmin(admin.ModelAdmin):
+    readonly_fields = ('last_update', 'last_update_by')
+
+    def save_model(self, request, obj, form, change):
+        obj.last_update_by = request.user
+        super().save_model(request, obj, form, change)
+
 @admin.register(FarmLocation)
-class FarmLocationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'latitude', 'longitude')
-    search_fields = ('name',)
+class FarmLocationAdmin(BaseAdmin):
+    pass
 
 @admin.register(Crop)
-class CropAdmin(admin.ModelAdmin):
-    list_display = ('name', 'crop_type', 'farm_location', 'planting_date')
-    list_filter = ('crop_type',)
-    search_fields = ('name',)
+class CropAdmin(BaseAdmin):
+    pass
 
 @admin.register(IrrigationZone)
-class IrrigationZoneAdmin(admin.ModelAdmin):
-    list_display = ('name', 'farm_location')
-    search_fields = ('name',)
+class IrrigationZoneAdmin(BaseAdmin):
+    pass
