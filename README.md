@@ -12,6 +12,8 @@ The project was completed in three assignments:
 
 - **Assignment 4:** Function-Based Views (FBVs), BaseModel for shared fields, pagination, success messages, and improved UI
 
+- **Assignment 5:** ORM Testing using Django’s built-in testing framework
+
 ## Features
 - CRUD operations for Farm Locations, Crops, and Irrigation Zones
 - BaseModel with last_update (auto-update timestamp) and last_update_by (tracks user who last modified a record)
@@ -20,6 +22,7 @@ The project was completed in three assignments:
 - User-friendly navigation and intuitive interface
 - Django Admin integration with read-only tracking fields
 - GIS support using GDAL
+- Fully automated Django tests for ORM queries (Assignment 5)
 
 ## Setup Instructions
 
@@ -92,31 +95,18 @@ templates/
 path("farms/", FarmListView.as_view(), name="farm-list"),
 path("farms/<int:pk>/", FarmDetailView.as_view(), name="farm-detail"),
 ```
-
-### Django Admin Screens
-```bash
-Custom admin classes include:
-
-list_display = (...)
-
-list_filter = (...)
-
-search_fields = (...)
-
-raw_id_fields = (...)
-```
-### CRUD Views (Assignment 4)
+### Assignment 4 – Function-Based Views (FBVs)
 
 ```bash
-List View: Paginated lists of Farm Locations, Crops, Irrigation Zones
+Features:
 
-Detail View: View details of a single record
+Paginated list views
 
-Create View: Add new records with last_update_by automatically set
+Auto-update last_update and last_update_by
 
-Update View: Edit records with last_update and last_update_by auto-updating
+Success messages
 
-Delete View: Remove records with success messages
+Clean UI templates
 ```
 
 ### Example URL patterns (FBVs):
@@ -151,7 +141,17 @@ list_filter
 search_fields
 readonly_fields for last_update and last_update_by
 ```
+### Assignment 5 – Django Testing (ORM Tests)
+A full automated test suite was implemented to validate ORM queries from Assignment 2.
+```bash
+All tests are located in:
 
+wildlife/tests.py
+
+Run tests:
+
+python manage.py test wildlife
+```
 ### Branching Structure
 ```bash
 The project follows the lesson-based branching:
@@ -162,7 +162,9 @@ django-lesson-2-orm
 
 django-lesson-3-cbv
 
-django-lesson4-fbv
+django-lesson-4-fbv
+
+django-lesson-5-test
 ```
 ## 📘 Setting Up GDAL on Windows (Using VS Code + Conda)
 
