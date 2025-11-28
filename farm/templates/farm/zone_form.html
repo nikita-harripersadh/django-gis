@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if object %}Edit{% else %}Add{% endif %} Irrigation Zone</title>
+</head>
+<body>
+
+<h1>{% if object %}Edit{% else %}Add{% endif %} Irrigation Zone</h1>
+
+<!-- Display success/error messages -->
+{% if messages %}
+  <ul>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<!-- IrrigationZone form -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+
+<!-- Back to list link -->
+<a href="{% url 'farm:zone_list' %}">Back to Irrigation Zones</a>
+
+</body>
+</html>

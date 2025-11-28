@@ -1,6 +1,22 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class FarmLocation(models.Model):
+# ------------------------
+# BaseModel for shared fields
+# ------------------------
+class BaseModel(models.Model):
+    last_update = models.DateTimeField(auto_now=True)
+    last_update_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True
+    )
+
+    class Meta:
+        abstract = True  # Prevents table creation for BaseModel
+
+# ------------------------
+# Farm Models
+# ------------------------
+class FarmLocation(BaseModel):
     name = models.CharField(max_length=100)
     latitude = models.FloatField()   # Latitude as float
     longitude = models.FloatField()  # Longitude as float
@@ -9,13 +25,13 @@ class FarmLocation(models.Model):
         return self.name
 
 
-class Crop(models.Model):
+class Crop(BaseModel):
     CROP_CHOICES = [
         ('wheat', 'Wheat'),
         ('corn', 'Corn'),
         ('rice', 'Rice'),
     ]
-    farm_location = models.ForeignKey('farm.FarmLocation', on_delete=models.CASCADE)
+    farm_location = models.ForeignKey(FarmLocation, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     crop_type = models.CharField(
         max_length=5,
@@ -28,7 +44,7 @@ class Crop(models.Model):
         return f"{self.name} ({self.crop_type})"
 
 
-class IrrigationZone(models.Model):
+class IrrigationZone(BaseModel):
     farm_location = models.ForeignKey(FarmLocation, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     polygon_data = models.TextField()  # Can store coordinates as text (e.g., JSON/WKT)
