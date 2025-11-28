@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here.
+
 class PropertyType(models.Model):
     name = models.CharField(max_length=250, unique=True)
 
@@ -38,6 +38,9 @@ class Organisation(models.Model):
         blank=True
     )
 
+    def __str__(self):
+        return self.name
+
 
 class Property(models.Model):
     """Property model."""
@@ -47,12 +50,13 @@ class Property(models.Model):
     property_type = models.ForeignKey(PropertyType, on_delete=models.DO_NOTHING)
     organisation = models.ForeignKey(Organisation, on_delete=models.DO_NOTHING)
 
-    # Use Django's built-in JSONField
     centroid = models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class TaxonRank(models.Model):
-    """Taxon rank model."""
     name = models.CharField(max_length=250, unique=True)
 
     def __str__(self):
@@ -64,13 +68,14 @@ class TaxonRank(models.Model):
 
 
 class Taxon(models.Model):
-    """Taxon model"""
     scientific_name = models.CharField(max_length=250, unique=True)
     common_name_varbatim = models.CharField(max_length=250, null=True, blank=True)
     taxon_rank = models.ForeignKey(
         TaxonRank, on_delete=models.CASCADE, null=True, blank=True
     )
-    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
+    parent = models.ForeignKey(
+        "self", on_delete=models.CASCADE, null=True, blank=True
+    )
 
     def __str__(self):
         return self.scientific_name
@@ -95,7 +100,22 @@ class AnnualPopulation(models.Model):
     juvenile_total = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return "{} {}".format(self.property.name, self.year)
+        return f"{self.property.name} {self.year}"
+
+    def save(self, *args, **kwargs):
+        # Convert None to 0
+        am = self.adult_male or 0
+        af = self.adult_female or 0
+        jm = self.juvenile_male or 0
+        jf = self.juvenile_female or 0
+        sm = self.sub_adult_male or 0
+        sf = self.sub_adult_female or 0
+
+        # Compute total
+        self.total = am + af + jm + jf + sm + sf
+
+        super().save(*args, **kwargs)
+
 
 def create_sample_data():
     # Create Property Types
@@ -118,12 +138,16 @@ def create_sample_data():
     species_rank = TaxonRank.objects.create(name="Species")
     genus_rank = TaxonRank.objects.create(name="Genus")
 
-    # Create Taxons (Species & Genus)
+    # Create Taxons
     taxon1 = Taxon.objects.create(scientific_name="Acinonyx jubatus", common_name_varbatim="Cheetah", taxon_rank=species_rank)
     taxon2 = Taxon.objects.create(scientific_name="Panthera leo", common_name_varbatim="Lion", taxon_rank=species_rank)
 
     # Create Annual Population Records
     AnnualPopulation.objects.create(
-        year=2021, total=50, adult_male=20, adult_female=30, taxon=taxon1, property=prop1, user=None)
+        year=2021, adult_male=20, adult_female=30,
+        taxon=taxon1, property=prop1, user=None
+    )
     AnnualPopulation.objects.create(
-        year=2021, total=70, adult_male=35, adult_female=35, taxon=taxon2, property=prop2, user=None)
+        year=2021, adult_male=35, adult_female=35,
+        taxon=taxon2, property=prop2, user=None
+    )
