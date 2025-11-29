@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# SQLite Database
+db.sqlite3
+
+# Environment folders
+venv/
+env/
+*.env
+
+# VS Code
+.vscode/
+
+# GDAL / build artifacts
+gdal-3.12.0/
+*.whl
+
+# Django static/media (optional)
+staticfiles/
+media/
